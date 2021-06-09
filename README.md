@@ -25,7 +25,7 @@ and focus on the driving.
 ## Application Structure
 
 This application contains two main folders, **public**, and **docs**.
-The **public*+ folder is where the source files for the application 
+The **public** folder is where the source files for the application 
 are contained. These are used for development, and they are the
 unminified, editable versions of the source code. The second folder
 is **docs** and this contains the 'built' or compiled version of the
