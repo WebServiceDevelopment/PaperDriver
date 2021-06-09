@@ -1,0 +1,241 @@
+<!doctype html>
+<html>
+
+	<head>
+
+		<title>Status</title>
+		<meta charset='utf-8'/>
+		<link rel='stylesheet' type='text/css' href='css/layout.css'/>
+
+	</head>
+
+	<body>
+
+		<main>
+			
+			<div class='step-outline'>
+
+			<h2>1. Prep Stage (事務所で行う) <span id='reset'>Reset</span></h2>
+
+			<div class='row'>
+				<table>
+					<tr>
+						<td class='step'>
+						
+							<div class='box' id='StepManager.steps.0'>
+								<input id='StepManager.files.drivingPermit' type='file'/>
+								<span>1. 運行指示書</span>
+								<img class='doc' src='img/document.png'/>
+								<div id='StepManager.checks.1' class='attach-button attach'></div>
+
+								<p class='msg'>
+
+									「運行指示書」の元となるデータ(.csv/.xlsx)
+									をネットワークストレージから選択する
+
+								</p>
+
+							</div>
+
+						</td>
+
+						<td class='arrow'>
+							<img src='img/1200px-Dark_blue_right_arrow.png'/>
+						</td>
+
+						<td class='step'>
+						
+							<div class='box active' id='StepManager.steps.1'>
+								<span>2. 特殊車両通行許可申請書</span>
+								<div id='StepManager.checks.0' class='attach-button attach'></div>
+								<input id='StepManager.files.driverInstructions' type='file'/>
+								<img class='doc' src='img/document.png'/>
+
+								<p class='msg'>
+									「特殊車両通行許可申請書」のPDFファイルを
+									ネットワークストレージから選択する
+								</p>
+
+							</div>
+						
+						</td>
+
+						<td class='arrow'>
+							<img src='img/1200px-Dark_blue_right_arrow.png'/>
+						</td>
+
+						<td class='step'>
+						
+							<div class='box' id='StepManager.steps.2'>
+
+								<span>3. 運行標準書</span>
+								<img class='doc' src='img/document.png'/>
+								<div id='StepManager.checks.2' class='attach-button attach'></div>
+								<p class='msg'>
+
+									「運行標準書」の元となるデータ(.csv/.xlsx)
+									をネットワークストレージから選択する
+
+								</p>
+
+							</div>
+						
+						</td>
+
+					</tr>
+				</table>
+			</div>
+			
+			<h2>2. Deliver Stage (トラックで行う)</h2>
+
+			<div class='row'>
+				<table>
+					<tr>
+						<td class='step'>
+						
+							<div class='box'>
+								<span>4. 点検</span>
+
+								<img class='doc' src='img/document.png'/>
+								
+								<div id='StepManager.checks.3' class='attach-button'></div>
+
+								<p class='msg'>
+								「点検」タブからを入力する
+点検入力した後、「点検確定」ボタンを押す
+								</p>
+
+							</div>
+
+						</td>
+
+						<td class='arrow'>
+							<img src='img/1200px-Dark_blue_right_arrow.png'/>
+						</td>
+
+						<td class='step'>
+						
+							<div class='box'>
+								<span>5. 開始メーター</span>
+								
+								<div id='StepManager.checks.4' class='attach-button'></div>
+
+								<p class='msg'>
+								「運転記録」タブから「開始オドメーター」と
+								「出庫時間」を入力した後、「開始確認」を押す
+								</p>
+
+							</div>
+						
+						</td>
+
+						<td class='arrow'>
+							<img src='img/1200px-Dark_blue_right_arrow.png'/>
+						</td>
+
+						<td class='step'>
+						
+							<div class='box'>
+
+								<span>6. 終了メーター</span>
+								
+								<div id='StepManager.checks.5' class='attach-button'></div>
+
+								<p class='msg'>
+								「運転記録」タブから「 終了オドメーター」と
+								「退庫時間」を入力した後、「終了確認」を押す
+								</p>
+
+							</div>
+						
+						</td>
+
+					</tr>
+				</table>
+			</div>
+			
+			<h2>3. Return Stage (事務所で行う)</h2>
+
+			<div class='row'>
+				<table>
+					<tr>
+						<td class='step'>
+						
+							<div class='box'>
+
+								<span>7. デジタコデータ読込</span>
+								
+								<img class='doc' src='img/document.png'/>
+								
+								<div id='StepManager.checks.6' class='attach-button attach'></div>
+
+								<p class='msg'>
+								ネットワークストレージから
+								デジタコのCSVデータを選択する
+								
+								</p>
+
+							</div>
+
+						</td>
+
+						<td class='arrow'>
+							<img src='img/1200px-Dark_blue_right_arrow.png'/>
+						</td>
+
+						<td class='step'>
+						
+							<div class='box'>
+
+								<span>8. 日報調整</span>
+								
+								<img class='doc' src='img/document.png'/>
+								
+								<div id='StepManager.checks.7' class='attach-button'></div>
+								
+								<p class='msg'>
+								「運転日報」のページは調整のために編集可能
+<br>
+編集完了した際は「日報確定」を押す
+								</p>
+
+							</div>
+						
+						</td>
+
+						<td class='arrow'>
+							<img src='img/1200px-Dark_blue_right_arrow.png'/>
+						</td>
+
+						<td class='step'>
+							<div class='box'>
+								<span>9. Export PDF's</span>
+								
+								<div id='StepManager.checks.8' class='attach-button'></div>
+
+								<p class='msg'>
+								本件のデータ（CSVやPDF）を書き出す
+<br>
+								保管するには「運転記録」タブから「データ書き出し」を押す
+								</p>
+
+							</div>
+						</td>
+
+					</tr>
+				</table>
+			</div>
+			
+			</div>
+
+		</main>
+		
+		<script type='text/javascript' src='js/reset.js'></script>
+		
+		<!--
+		<script type='text/javascript' src='js/StepManager.js'></script>
+		-->
+
+	</body>
+
+</html>

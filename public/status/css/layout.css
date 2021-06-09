@@ -1,0 +1,275 @@
+html {
+
+	padding: 0;
+	margin: 0;
+	height: 100%;
+
+}
+
+body {
+
+	padding: 0;
+	margin: 0;
+	height: 100%;
+
+}
+
+main {
+
+	height: calc(100% - 8px);
+	padding: 4px 0;
+	width: calc(100% - 8px);
+	display: block;
+	margin: auto;
+
+}
+
+div.step-outline {
+
+	position: absolute;
+	left: 4px;
+	top: 4px;
+	width: calc(100% - 8px);
+
+
+}
+
+h2 {
+	
+	/*
+	padding: 8px 0;
+	margin: 0;
+	font-size: 18px;
+	border-bottom: 1px solid #bababa;
+	*/
+
+	padding: 0;
+	font-size: 16px;
+	margin: 0;
+
+}
+
+h2 span {
+
+	margin-left: 30px;
+	text-transform: uppercase;
+	color: #495b7f;
+
+}
+
+div.row {
+
+	width: 100%;
+	height: 180px;
+	margin-top: 6px;
+	margin-bottom: 4px;
+
+}
+
+div.row table {
+
+	width: 100%;
+	height: 100%;
+	table-layout: fixed;
+	border-collapse: collapse;
+
+}
+
+div.row table td.step {
+
+
+}
+
+div.row table td.step div.box {
+
+	width: 96%;
+	height: 170px;
+	background-color: #dadada;
+	border: 2px solid #9a9a9a;
+
+	border-left-color: #bababa;
+	border-top-color: #bababa;
+
+	border-radius: 10px;
+	display: block;
+	margin: auto;
+	position: relative;
+
+}
+
+div.row table td.step div.box p.msg {
+
+	padding: 0;
+	margin: 0;
+	font-size: 15px;
+	position: absolute;
+	left: 4px;
+	top: 40px;
+	width: calc(100% - 56px);
+	height: 120px;
+	color: #1f56a8;
+
+}
+
+div.row table td.step div.box p.msg a {
+
+	display: block;
+
+}
+
+div.row table td.step div.box input {
+
+	opacity: 0;
+	pointer-events: none;
+
+}
+
+div.row table td.step div.box div.attach-button {
+
+	position: absolute;
+	right: 4px;
+	bottom: 4px;
+	width: 50px;
+	height: 50px;
+	border: 1px solid #9a9a9a;
+	border-radius: 100%;
+
+}
+
+div.row table td.step div.box div.attach-button.green {
+
+	background-color: #7ac142;
+
+}
+
+div.row table td.step div.box div.attach-button.clear {
+
+	border: none;
+	bottom: 16px;
+	right: 8px;
+
+}
+
+div.row table td.step div.box div.attach-button.attach {
+
+	background-image: url('../img/Ei-paperclip.svg');
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	transform: rotate(-45deg);
+
+}
+
+div.row table td.step div.box img.doc {
+
+	position: absolute;
+	right: 4px;
+	top: 4px;
+	width: 38px;
+	opacity: 0.8;
+	display: block;
+
+}
+
+div.row table td.step div.box div.clip {
+
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	left: 64px;
+	top: 100px;
+
+	background-image: url('../img/Ei-paperclip.svg');
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	transform: rotate(-45deg);
+
+}
+
+div.row table td.step div.box span {
+
+	position: absolute;
+	top: 4px;
+	left: 4px;
+	font-size: 18px;
+
+}
+
+div.row table td.step div.box.active {
+
+	pointer-events: all;
+	box-shadow: 0 3px 6px rgba(81,120,193,0.4), 0 3px 6px rgba(81,120,193,0.5)
+
+}
+
+div.row table td.arrow {
+
+	width: 50px;
+
+}
+
+div.row table td.arrow img {
+
+	max-width: 90%;
+	display: block;
+	margin: auto;
+
+}
+
+/*********************************************************/
+/** Start Animated Checkbox                             **/
+/*********************************************************/
+
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #7ac142;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  margin: 10% auto;
+  box-shadow: inset 0px 0px 0px #7ac142;
+  animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes scale {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #7ac142;
+  }
+}
+
+/*********************************************************/
+/** End Animated Checkbox                               **/
+/*********************************************************/

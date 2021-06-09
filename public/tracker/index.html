@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<title>Operation record chart</title>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<link rel='stylesheet' type='text/css' href='css/layout.css'/>
+	<link rel='stylesheet' type='text/css' href='css/operation.css'/>
+	<script type="text/javascript" src="js/view_change.js"></script>
+	<script type="text/javascript" src="js/spread.js"></script>
+	<script type="text/javascript" src="js/highway_geolocaton.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/total.js"></script>
+	<script type="text/javascript" src="js/drive.js"></script>
+	<script type="text/javascript" src="js/setData.js"></script>
+	<script type="text/javascript" src="js/addFuncs.js"></script>
+	<script type="text/javascript" src="js/result.js"></script>
+	<script type="text/javascript" src="js/operation_standard.js"></script>
+</head>
+<body>
+
+<div id="main">
+	<canvas id="canvas" width="1024" height="756"></canvas>
+</div>
+
+<div id="time_bar">
+</div>
+
+<div id="sub">
+
+<span id="total1" class="total">
+</span>
+
+<span id="total2" class="total">
+</span>
+
+<span id="total3" class="total">
+</span>
+
+<span id="drive1" class="drive">
+</span>
+
+<span id="drive2" class="drive">
+</span>
+
+<span id="drive3" class="drive">
+</span>
+
+<span id="line1" class="line">
+</span>
+
+<span id="line2" class="line">
+</span>
+
+<span id="line3" class="line">
+</span>
+
+</div>
+
+<div id="in_progress">
+</div>
+
+
+<!--
+<button id="reload" style="position:absolute;top:60px;left:20px"> reload </button>
+-->
+
+<button id="arrow" class="arrow" >
+<div id="triangle-left" class="triangle-left" ><div>
+</button>
+
+<div id="job">
+<button id="outstock" class="button1 upper btn" >出 庫 </button>
+<button id="instock" class="button1 lower btn" >入 庫 </button>
+<button id="inspection" class="button2 upper btn"> 点 検 </button>
+<button id="standby" class="button2 lower btn" > 待 機 </button>
+<button id="loading" class="button3 upper btn" >荷 積 </button>
+<button id="unloading" class="button3 lower btn" >荷 卸 </button>
+<button id="longrest" class="button4 upper btn" > 休憩 / 休息 </button>
+<button id="attendant_work" class="button4 lower btn" > 附帯作業 </button>
+<button id="other" class="button5 upper btn" > その他 </button>
+<button id="ferry" class="button5 lower btn" > フェリー </button>
+</div>
+
+<div id="panel" class="panel">
+	<span class="upper_panel">
+		<span id="job_status"> </span>
+	</span>
+	<span class="baggage">
+		<span id ="baggage"> <!-- 空車 --></span> 
+	</span>
+	<span class="now_time">
+		<span id ="now_time"> 00時00分 </span> 
+	</span>
+	<span class="esplead_time">
+		<span> <!-- 経過&nbsp;--> </span>
+		<span id ="esplead_time"> 00:00:00 </span> 
+	</span>
+
+	<span class="down_panel">
+	<table >
+		<tr>
+			<td class="col1"> 拘束時間</td> <td id="restraint_time"> 00:00 </td>
+			<td class="col3"> 残り拘束時間&nbsp;</td> <td id="remaining_restraint_time" class="col4"> 00:00</td>
+		</tr>
+		<tr>
+			<td class="col1"> 休憩時間</td> <td id="rest_time"> 00:00</td>
+			<td class="col3"> 休憩時間残&nbsp;</td> <td id="remaining_rest_time" class="col4"> 00:00</td>
+		</tr>
+		<tr>
+			<td class="col1"> 休息時間</td> <td id="longrest_time" class="col2"> 00:00</td>
+			<td class="col3"> 休息時間残&nbsp;</td> <td id="remaining_longrest_time" class="col4"> 08:00 </td>
+<!--
+			<td class="col3"> 分割休息回数&nbsp;</td> <td id="split_longrest_time" class="col4"> 0 </td>
+-->
+		</tr>
+		<tr>
+			<td class="col1"> 中断時間</td> <td id="driving_interruption_time" class="col2"> 00:00</td>
+			<td class="col3"> 連続運転許容時間&nbsp;</td> <td id="continuous_driveing_allowable_time" class="col4"> 04:00</td>
+		</tr>
+	</table>
+	</span>
+</div>
+
+<div id="operation" class="operation">
+<table>
+<thead>
+<tr>
+<th class="a"> 区分</th>
+<th class="b" colspan="2"> 経路</th>
+<th class="c"> 時間</th>
+<th class="d"> 備考</th>
+<th class="e"> 操作ボタン</th>
+<th class="f"> </th>
+</tr>
+</thead>
+
+<tbody id ="operation_tbody">
+</tbody>
+</table>
+</div>
+
+<button id="draw_plan" class="draw_plan" > 表示 </button>
+<button id="save_file" class="save_file" > Save File </button>
+
+<button id="draw_json" class="draw_json" > ALL</button>
+<button id="draw_json_plan" class="draw_json_plan" > Plans </button>
+<button id="draw_json_transitionPoints" class="draw_json_transitionPoints" > 経過地点 </button>
+<button id="draw_json_driveTransitionPoints" class="draw_json_driveTransitionPoints" > 運転(経過) </button>
+<button id="draw_json_practiceTransitionPoints" class="draw_json_practiceTransitionPoints" > 運転外実務 </button>
+<button id="draw_json_restTransitionPoints" class="draw_json_restTransitionPoints" > 休憩 </button>
+
+<div class="standard_book">
+<button id="load_file" class="load_file" > Load File </button>
+
+<button id="outbound" class="outbound" > 往路 </button>
+
+<button id="return_trip" class="return_trip" > 復路 </button>
+</div>
+
+<div id="plan" class="plan">
+	<table>
+		<thead>
+			<tr>
+				<th rowspan=2> No.</th>
+				<th rowspan=2> 日目</th>
+				<th colspan=2> 開始</th>
+				<th colspan=2> 終了</th>
+				<th rowspan=2> 操作</th>
+				<th rowspan=2> info</th>
+			</tr>
+			<tr>
+				<th class="b"> 時</th>
+				<th class="c"> 分</th>
+				<th class="d"> 時</th>
+				<th class="e"> 分</th>
+			</tr>
+		</thead>
+
+		<tbody id ="plan_tbody" class="plan_tbody">
+
+		</tbody>
+	</table>
+
+	<div id="popup" class="popup">
+	</div>
+	<div id="frame_menu" class="frame_menu">
+		<div id="insert_menu"> 挿入 </div>
+		<div id="add_menu"> 追加 </div>
+		<div id="delete_menu"> 削除 </div>
+	</div>
+	<div id="json_viewer" class="json_viewer">
+		<div id="json_header" class="json_header"> JSON string viewer:</div>
+		<div id="json_object_key" class="json_object_key"> </div>
+		<div id="json_body" class="json_body"> </div>
+	</div>
+</div>
+
+
+</body>
+</html>
