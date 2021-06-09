@@ -1,0 +1,2433 @@
+<!doctype html>
+<html>
+
+	<head>
+
+		<title>Drive Tracker</title>
+
+		<meta charset='utf-8'/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-title" content="Drive Tracker">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="apple-touch-icon" href="img/apple-icon.png">
+		<link rel="apple-touch-startup-image" href="img/launch.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)" />
+		<link rel='shortcut icon' type='image/png' href='img/express_icon.png'/>
+
+		<link rel='stylesheet' type='text/css' href='css/layout.css'/>
+		<link rel='stylesheet' type='text/css' href='css/spinner.css'/>
+		<link rel='stylesheet' type='text/css' href='css/checkbox.css'/>
+
+
+	</head>
+
+	<body>
+
+		<main>
+
+			<header>
+
+				<h1 id='ServiceWorker.version.toggle'>
+					Drive Tracker <span>
+						<span id='ServiceWorker.version.production'></span>
+					</span>
+				</h1>
+
+				<div class='tabs'>
+					<div style='translateX(5px);' id='ArticleWidget.underline' class='underline'></div>
+					<table>
+						<tr>
+							<td id='ArticleWidget.tabs.a'>手順とステータス</td>
+							<td id='ArticleWidget.tabs.b'>運行・点検記録簿</td>
+							<td id='ArticleWidget.tabs.c'>運行指示・経過</td>
+							<td id='ArticleWidget.tabs.d'>書類表示</td>
+						</tr>
+					</table>
+				</div>
+
+				<div class='version' id='ServiceWorker.version.modal'>
+					<table>
+						<tr>
+							<td class='label'>
+								Inspection
+							</td>
+							<td class='char'>
+								:
+							</td>
+							<td class='value' id='ServiceWorker.version.top'>
+							</td>
+						</tr>
+						<tr>
+							<td class='label'>
+								PDF Viewer	
+							</td>
+							<td class='char'>
+								:
+							</td>
+							<td class='value' id='ServiceWorker.version.pdf'>
+							</td>
+						</tr>
+						<tr>
+							<td class='label'>
+								TachoGraph
+							</td>
+							<td class='char'>
+								:
+							</td>
+							<td class='value' id='ServiceWorker.version.tacho'>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+
+			</header>
+
+			<section>
+				
+				<article id='ArticleWidget.article.a'>
+					<iframe src='/status/13/' scrolling='no' seemless></iframe>
+				</article>
+
+				<article class='right' id='ArticleWidget.article.c'>
+					<iframe id='DailyReport' src='/daily_report_1/322/' scrolling="no" seemless data-version='tacho'></iframe>
+				</article>
+				
+				<article id='ArticleWidget.article.d' class='right'>
+					<iframe src='/records/05/' scrolling='no' seemless></iframe>
+				</article>
+				
+				<article  id='ArticleWidget.article.b' class='right'>
+
+					<div class='pdf-viewer' id='PdfManager.display'>
+						<iframe id='PdfManager.iframe' src='/pdf/viewer/05/' seemless data-version='pdf'></iframe>
+					</div>
+
+					<div class='calendar-widget' id='CalendarWidget.toggle.widget'>
+
+						<div class='body'>
+
+							<div class='left'>
+								<div class='arrow'></div>
+							</div>
+
+							<div class='display' id='CalendarWidget.arrow.display'>
+							</div>
+
+							<div class='right'>
+								<div class='arrow'></div>
+							</div>
+
+						</div>
+
+						<div class='header'>
+							<div id='CalendarWidget.arrow.prev' class='left arrow'></div>
+							<span id='CalendarWidget.arrow.label'>
+							</span>
+							<div id='CalendarWidget.arrow.next' class='right arrow'></div>
+						</div>
+
+					</div>
+
+					<div class='right-tabs'>
+
+						<div class='pdf-toggle' id='PdfManager.toggle'>
+							PDF表示
+						</div>
+
+						<div class='cal-toggle' id='CalendarWidget.toggle.button'>
+							日付選択
+						</div>
+
+						<div id='SlideWidget.controls.arrow_up' class='arrow top'></div>
+						<ul id='SlideWidget.controls.ul'>
+							<li id='SlideWidget.controls.slide_a' class='active'>
+								運転<br>記録
+							</li>
+							<li id='SlideWidget.controls.slide_b'>運行<br>標準書</li>
+							<li id='SlideWidget.controls.slide_c'>点検</li>
+							<li id='SlideWidget.controls.slide_d'>ETC<br>記録</li>
+							<li id='SlideWidget.controls.slide_e'>運転<br>日報</li>
+						</ul>
+						<div id='SlideWidget.controls.arrow_down' class='arrow bottom'></div>
+					</div>
+
+					<div class='tbl_b'>
+
+						<li class='row'>
+							<table>
+								<tr>
+
+									<td class='a lbl'>
+										<span id='HeaderWidget.table.company'></span>
+										<input type='text' value='' readonly='readonly' id='HeaderWidget.table.office'/>
+										業務所
+									</td>
+									<td class='b'>
+										乗務員名
+									</td>
+									<td>
+										<input readonly='readonly' class='fill' type='text' value='' id='HeaderWidget.table.driver_a'/>
+									</td>
+									<td class='b'>
+										同乗者名
+									</td>
+									<td class='fixed'>
+										<input readonly='readonly' class='fill' type='text' value='' id='HeaderWidget.table.driver_b'/>
+									</td>
+
+								</tr>
+							</table>
+						</li>
+
+						<li class='row'>
+							<table>
+								<tr>
+									<td class='a cal'>
+										<input type='text' id='HeaderWidget.table.year' value='' readonly='readonly' class='year'/>年
+										<input type='text' id='HeaderWidget.table.month' value='' readonly='readonly'/>月
+										<input type='text' id='HeaderWidget.table.day' value='' readonly='readonly'/>日
+										(<span id='HeaderWidget.table.dow'></span>曜日)
+									</td>
+									<td class='b'>
+										天候（
+											<input class='weather' type='text' readonly='readonly'/>
+										）
+									</td>
+									<td class='label'>
+										車番
+									</td>
+									<td class='car'>
+										<input type='text' id='HeaderWidget.table.truck_number' value='' readonly='readonly'/>
+									</td>
+									<td class='label'>
+										車種
+									</td>
+									<td class='end'>
+										<span id='HeaderWidget.table.trailer'>トレーラー</span>・
+										<span id='HeaderWidget.table.tanker'>ローリー</span>・
+										<span id='HeaderWidget.table.large'>大型</span>・
+										<span id='HeaderWidget.table.medium'>中型</span>
+									</td>
+								</tr>
+							</table>
+						</li>
+
+					</div>
+
+					<div class='left-content'>
+
+						<div id="SlideWidget.slides.slide_a" class='slide'>
+
+							<div class='tbl_c'>
+
+								<table>
+									<tr>
+										<td class='a'>開始メーター</td>
+										<td class='b'>
+
+											<div class='rel'>
+											<input id='InputWidgets.a.num' type='number' class='hide' value="672303"/> 
+											<input id='InputWidgets.a.text' type="text" value="672,303" class='background'/> 
+											km
+											</div>
+
+										</td>
+										<td class='d'>出庫時間</td>
+										<td class='e'>
+											<input type='text' value='00' readonly='readonly'/>時　
+											<input type='text' value='45' readonly='readonly'/>分
+										</td>
+										<td colspan='2'>
+
+										</td>
+									</tr>
+									<tr>
+										<td class='a'>終了メーター</td>
+										<td class='b'>
+
+											<div class='rel'>
+											<input id='InputWidgets.b.num' type='number' class='hide' value="672866"/> 
+											<input id='InputWidgets.b.text' type="text" value="672,866" class="background"/> 
+											km
+											</div>
+										
+										</td>
+										<td class='d'>退庫時間</td>
+										<td class='e'>
+											<input type='text' value='14' readonly='readonly'/>時　
+											<input type='text' value='20' readonly='readonly'/>分
+										</td>
+										<td colspan='2'>
+
+										</td>
+									</tr>
+									<tr>
+										<td class='a'>走行距離</td>
+										<td class='b' id='InputWidgets.c.text'>503 km</td>
+										<td class='d'>合計時間</td>
+										<td class='e'>
+											<input type='text' value='13' readonly='readonly'/>時間
+											<input type='text' value='45' readonly='readonly'/>分
+										</td>
+										<td class='f'>運転時間</td>
+										<td class='g'>
+											<input class='totals' type='text' readonly='readonly'/>
+											時間　
+											<input class='totals' type='text' readonly='readonly'/>
+											分
+										</td>
+									</tr>
+								</table>
+
+							</div>
+
+							<div class='align_a'>
+
+							<div class='start-end'>
+
+								<div class='header'>
+									<div class='tab'>
+										開始
+									</div>
+
+									<div class='step' id='StepManager.step_05.label'>
+										<span>Step 5</span>
+										<div id='StepManager.step_05.status' class='icon'></div>
+									</div>
+								</div>
+
+								<div class='export-data'>
+
+									<div class='step' id='StepManager.step_01.label'>
+										<span>Step 1</span>
+										<input type='file' id='StepManager.step_01.file' accept="application/JSON"/>
+										<div id='StepManager.step_01.status' class='icon'></div>
+
+									</div>
+									
+									<button class='step' id='StepManager.step_01.button' >運行指示書</button>
+
+									<div class='step' id='StepManager.step_02.label'>
+										<span>Step 2</span>
+										<input type='file' id='StepManager.step_02.file' accept="application/pdf"/>
+										<div id='StepManager.step_02.status' class='icon'></div>
+									</div>
+
+									<button class='step' id='StepManager.step_02.button'>
+										特殊車両通行許可申請書
+									</button>
+
+									<div class='step' id='StepManager.step_03.label'>
+										<span>Step 3</span>
+										<input type='file' id='StepManager.step_03.file' accept="application/JSON"/>
+										<div id='StepManager.step_03.status' class='icon'></div>
+									</div>
+									
+									<button id='StepManager.step_03.button' class='step'>運行標準書</button>
+
+									<div class='step' id='StepManager.step_07.label'>
+										<span>Step 7</span>
+										<div class='icon' id='StepManager.step_07.status'></div>
+										<input type='file' id='StepManager.step_07.file' accept='application/JSON'/>
+									</div>
+
+									<button id='StepManager.step_07.button' class='step'>デジタコCSV読込</button>
+
+									<div class='step' id='StepManager.step_09.label'>
+										<span>Step 9</span>
+										<div class='icon' id='StepManager.step_09.status'></div>
+									</div>
+
+									<button id='StepManager.step_09.button' class='step'>データ書き出し</button>
+
+								</div>
+
+								<table>
+									<tr>
+										<td class='a'>
+											開始オドメーター 
+										</td>
+										<td class='b'>
+											<input id='HeaderWidget.start.mileage' type='text' value='' disabled='disabled'/>
+										</td>
+										<td class='b1'>
+											km
+										</td>
+										<td class='c'>出庫時間</td>
+										<td class='d1'>
+											<input id='HeaderWidget.start.hour' type='number' value='' disabled='disabled'/>
+										</td>
+										<td class='d2'>時</td>
+										<td class='d3'>
+											<input id='HeaderWidget.start.minute' type='number' value='' disabled='disabled'/>
+										</td>
+										<td class='d4'>分</td>
+										<td class='e'>
+											<button id='StepManager.step_05.button' class='step'>開始確認</button>
+										</td>
+									</tr>
+								</table>
+							</div>
+
+							<div class='start-end'>
+
+								<div class='drive-data'>
+
+								</div>
+
+								<div class='header'>
+									<div class='tab'>
+										終了
+									</div>
+
+									<div class='step' id='StepManager.step_06.label'>
+										<span>Step 6</span>
+										<div id='StepManager.step_06.status' class='icon'></div>
+									</div>
+
+								</div>
+								<table>
+									<tr>
+										<td class='a'>
+											終了オドメーター
+										</td>
+										<td class='b'>
+											<input type='text' value='' disabled='disabled' id='HeaderWidget.end.mileage'/>
+										</td>
+										<td class='b1'>
+											km
+										</td>
+										<td class='c'>退庫時間</td>
+										<td class='d1'>
+											<input type='text' value='' disabled='disabled' id='HeaderWidget.end.hour'/>
+										</td>
+										<td class='d2'>時</td>
+										<td class='d3'>
+											<input type='text' value='' disabled='disabled' id='HeaderWidget.end.minute'/>
+										</td>
+										<td class='d4'>分</td>
+										<td class='e'>
+											<button class='step' id='StepManager.step_06.button'>終了確認</button>
+										</td>
+									</tr>
+									<tr>
+										<td class='a'>
+											走行距離
+										</td>
+										<td class='b'>
+											<input type='text' value='' disabled='disabled' id='HeaderWidget.end.total_km'/>
+										</td>
+										<td class='b1'>
+											km
+										</td>
+										<td class='c'>合計時間</td>
+										<td class='d1'>
+											<input type='text' value='' disabled='disabled' id='HeaderWidget.end.total_hour'/>
+										</td>
+										<td class='d2'>時間</td>
+										<td class='d3'>
+											<input type='text' value='' disabled='disabled' id='HeaderWidget.end.total_minutes'/>
+										</td>
+										<td class='d4'>分</td>
+										<td class='e null'>
+										</td>
+									</tr>
+									<tr>
+										<td class='a null'>
+										</td>
+										<td class='b null'>
+										</td>
+										<td class='b1 null allow'>
+										</td>
+										<td class='c'>運転時間</td>
+										<td class='d1'>
+											<input type='text' disabled='disabled'/>
+										</td>
+										<td class='d2'>時間</td>
+										<td class='d3'>
+											<input type='text' disabled='disabled'/>
+										</td>
+										<td class='d4'>分</td>
+										<td class='e null'>
+										</td>
+									</tr>
+								</table>
+							</div>
+
+							<div class='petrol'>
+								<div class='header'>
+
+									<div class='tab'>
+										給油
+									</div>
+
+								</div>
+
+								<table>
+									<tr>
+										<td class='no'>01</td>
+										<td class='a'>スタンド名</td>
+										<td class='b'>
+											<input type='text' disabled='disabled' id='HeaderWidget.end.stand_01'/>
+										</td>
+										<td class='e'>給油量</td>
+										<td class='c'>
+											<input type='text' disabled='disabled' id='HeaderWidget.end.liter_01'/>
+										</td>
+										<td class='d'>ℓ</td>
+									</tr>
+									<tr>
+										<td class='no'>02</td>
+										<td class='a'>スタンド名</td>
+										<td class='b'>
+											<input type='text' disabled='disabled' id='HeaderWidget.end.stand_02'/>
+										</td>
+										<td class='e'>給油量</td>
+										<td class='c'>
+											<input type='text' disabled='disabled' id='HeaderWidget.end.liter_02'/>
+										</td>
+										<td class='d'>ℓ</td>
+									</tr>
+								</table>
+							</div>
+
+							<div class='tbl_d hide'>
+
+								<table>
+									<thead>
+										<tr>
+											<th class='a'>
+												
+												<a>
+													積卸<br>
+													状態<br>
+													確認
+
+												</a>
+											
+											</th>
+											<th class='b'>荷主名</th>
+											<th class='c'>品名</th>
+											<th class='d'>荷姿</th>
+											<th class='e'>数量・重量</th>
+											<th class='f'>
+												発地<br>
+												<span>（積込地）</span>
+											</th>
+											<th class='g'>～</th>
+											<th class='h'>
+												到着<br>
+												<span>（荷卸地）</span>
+											</th>
+											<th class='i'>作業内容</th>
+											<th class='j'>横持</th>
+											<th class='k'>
+												丸善<br>
+												横持
+											</th>
+											<th class='l'>
+												移動
+											</th>
+											<th class='m'></th>
+											<th class='n'>夜間</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class='a'>
+											</td>
+											<td class='b'>
+											</td>
+											<td class='c'>
+											</td>
+											<td class='d'>
+											</td>
+											<td class='e'>
+											</td>
+											<td class='f'>
+											</td>
+											<td class='g'>
+												～
+											</td>
+											<td class='h'>
+											</td>
+											<td class='i'>
+												横持
+											</td>
+											<td class='j'></td>
+											<td class='k'></td>
+											<td class='l'>1</td>
+											<td class='m'></td>
+											<td class='n'></td>
+										</tr>
+										<tr>
+											<td class='a'>
+											</td>
+											<td class='b'></td>
+											<td class='c'></td>
+											<td class='d'></td>
+											<td class='e'></td>
+											<td class='f'></td>
+											<td class='g'>
+												～
+											</td>
+											<td class='h'></td>
+											<td class='i'>
+												横持
+											</td>
+											<td class='j'></td>
+											<td class='k'></td>
+											<td class='l'></td>
+											<td class='m'></td>
+											<td class='n'></td>
+										</tr>
+										<tr>
+											<td class='a'></td>
+											<td class='b'></td>
+											<td class='c'></td>
+											<td class='d'></td>
+											<td class='e'></td>
+											<td class='f'></td>
+											<td class='g'>
+												～
+											</td>
+											<td class='h'></td>
+											<td class='i'>
+												横持
+											</td>
+											<td class='j'></td>
+											<td class='k'></td>
+											<td class='l'></td>
+											<td class='m'></td>
+											<td class='n'></td>
+										</tr>
+										<tr>
+											<td class='a'></td>
+											<td class='b'></td>
+											<td class='c'></td>
+											<td class='d'></td>
+											<td class='e'></td>
+											<td class='f'></td>
+											<td class='g'>
+												～
+											</td>
+											<td class='h'></td>
+											<td class='i'>
+												横持
+											</td>
+											<td class='j'></td>
+											<td class='k'></td>
+											<td class='l'></td>
+											<td class='m'></td>
+											<td class='n'></td>
+										</tr>
+										<tr>
+											<td class='a'></td>
+											<td class='b'></td>
+											<td class='c'></td>
+											<td class='d'></td>
+											<td class='e'></td>
+											<td class='f'></td>
+											<td class='g'>
+												～
+											</td>
+											<td class='h'></td>
+											<td class='i'>
+												横持
+											</td>
+											<td class='j'></td>
+											<td class='k'></td>
+											<td class='l'></td>
+											<td class='m'></td>
+											<td class='n'></td>
+										</tr>
+									</tbody>
+									<tfoot>
+										<tr>
+											<td class='a'></td>
+											<td class='b'></td>
+											<td class='c'></td>
+											<td class='d'></td>
+											<td class='e'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+											<td class='h'></td>
+											<td class='i'>
+												計
+											</td>
+											<td class='j'></td>
+											<td class='k'></td>
+											<td class='l'></td>
+											<td class='m'></td>
+											<td class='n'></td>
+										</tr>
+									</tfoot>
+								</table>
+
+							</div>
+
+							<div class='tbl_d pad'>
+
+								<div class='header'>
+									<div class='tab'>
+										積卸
+									</div>
+								</div>
+
+								<table>
+									<thead>
+										<tr>
+											<th class='a'>
+												
+												<a>
+													積卸<br>
+													状態<br>
+													確認
+
+												</a>
+											
+											</th>
+											<th class='b'>荷主名</th>
+											<th class='c'>品名</th>
+											<th class='d'>荷姿</th>
+											<th class='e'>数量・重量</th>
+											<th class='f'>
+												発地<br>
+												<span>（積込地）</span>
+											</th>
+											<th class='g'>～</th>
+											<th class='h'>
+												到着<br>
+												<span>（荷卸地）</span>
+											</th>
+											<th class='i'>作業内容</th>
+											<th class='j'>積込</th>
+											<th class='k'>積合せ</th>
+											<th class='l'>
+												荷卸<br>
+												<span>（洗浄）</span>
+											</th>
+											<th class='m'>バラ</th>
+											<th class='n'>夜間</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class='a' id='HeaderWidget.row0.confirmation'>
+											</td>
+											<td class='b' id='HeaderWidget.row0.shipper_name'>
+											</td>
+											<td class='c' id='HeaderWidget.row0.product_name'>
+											</td>
+											<td class='d' id='HeaderWidget.row0.packing'>
+											</td>
+											<td class='e' id='HeaderWidget.row0.quantity'>
+											</td>
+											<td class='f' id='HeaderWidget.row0.origin'>
+											</td>
+											<td class='g'>
+												～
+											</td>
+											<td class='h' id='HeaderWidget.row0.arrival'>
+											</td>
+											<td class='i'>
+												<span id='HeaderWidget.row0.load'>積</span>・
+												<span id='HeaderWidget.row0.unload'>卸</span>・
+												<span id='HeaderWidget.row0.drive'>運行</span>
+											</td>
+											<td class='j' id='HeaderWidget.row0.loading'></td>
+											<td class='k' id='HeaderWidget.row0.assortment'></td>
+											<td class='l' id='HeaderWidget.row0.unloading'></td>
+											<td class='m' id='HeaderWidget.row0.loose'></td>
+											<td class='n' id='HeaderWidget.row0.at_night'></td>
+										</tr>
+										<tr>
+											<td class='a' id='HeaderWidget.row1.confirmation'>
+											</td>
+											<td class='b' id='HeaderWidget.row1.shipper_name'>
+											</td>
+											<td class='c' id='HeaderWidget.row1.product_name'>
+											</td>
+											<td class='d' id='HeaderWidget.row1.packing'>
+											</td>
+											<td class='e' id='HeaderWidget.row1.quantity'>
+											</td>
+											<td class='f' id='HeaderWidget.row1.origin'>
+											</td>
+											<td class='g'>
+												～
+											</td>
+											<td class='h' id='HeaderWidget.row1.arrival'>
+											</td>
+											<td class='i'>
+												<span id='HeaderWidget.row1.load'>積</span>・
+												<span id='HeaderWidget.row1.unload'>卸</span>・
+												<span id='HeaderWidget.row1.drive'>運行</span>
+											</td>
+											<td class='j' id='HeaderWidget.row1.loading'></td>
+											<td class='k' id='HeaderWidget.row1.assortment'></td>
+											<td class='l' id='HeaderWidget.row1.unloading'></td>
+											<td class='m' id='HeaderWidget.row1.loose'></td>
+											<td class='n' id='HeaderWidget.row1.at_night'></td>
+										</tr>
+										<tr>
+											<td class='a' id='HeaderWidget.row2.confirmation'>
+											</td>
+											<td class='b' id='HeaderWidget.row2.shipper_name'>
+											</td>
+											<td class='c' id='HeaderWidget.row2.product_name'>
+											</td>
+											<td class='d' id='HeaderWidget.row2.packing'>
+											</td>
+											<td class='e' id='HeaderWidget.row2.quantity'>
+											</td>
+											<td class='f' id='HeaderWidget.row2.origin'>
+											</td>
+											<td class='g'>
+												～
+											</td>
+											<td class='h' id='HeaderWidget.row2.arrival'>
+											</td>
+											<td class='i'>
+												<span id='HeaderWidget.row2.load'>積</span>・
+												<span id='HeaderWidget.row2.unload'>卸</span>・
+												<span id='HeaderWidget.row2.drive'>運行</span>
+											</td>
+											<td class='j' id='HeaderWidget.row2.loading'></td>
+											<td class='k' id='HeaderWidget.row2.assortment'></td>
+											<td class='l' id='HeaderWidget.row2.unloading'></td>
+											<td class='m' id='HeaderWidget.row2.loose'></td>
+											<td class='n' id='HeaderWidget.row2.at_night'></td>
+										</tr>
+										<tr>
+											<td class='a' id='HeaderWidget.row3.confirmation'>
+											</td>
+											<td class='b' id='HeaderWidget.row3.shipper_name'>
+											</td>
+											<td class='c' id='HeaderWidget.row3.product_name'>
+											</td>
+											<td class='d' id='HeaderWidget.row3.packing'>
+											</td>
+											<td class='e' id='HeaderWidget.row3.quantity'>
+											</td>
+											<td class='f' id='HeaderWidget.row3.origin'>
+											</td>
+											<td class='g'>
+												～
+											</td>
+											<td class='h' id='HeaderWidget.row3.arrival'>
+											</td>
+											<td class='i'>
+												<span id='HeaderWidget.row3.load'>積</span>・
+												<span id='HeaderWidget.row3.unload'>卸</span>・
+												<span id='HeaderWidget.row3.drive'>運行</span>
+											</td>
+											<td class='j' id='HeaderWidget.row3.loading'></td>
+											<td class='k' id='HeaderWidget.row3.assortment'></td>
+											<td class='l' id='HeaderWidget.row3.unloading'></td>
+											<td class='m' id='HeaderWidget.row3.loose'></td>
+											<td class='n' id='HeaderWidget.row3.at_night'></td>
+										</tr>
+									</tbody>
+									<tfoot>
+										<tr>
+											<td class='a'></td>
+											<td class='b'></td>
+											<td class='c'></td>
+											<td class='d'></td>
+											<td class='e'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+											<td class='h'></td>
+											<td class='i'>
+												計
+											</td>
+											<td class='j' id='HeaderWidget.totals.loading'></td>
+											<td class='k' id='HeaderWidget.totals.assortment'></td>
+											<td class='l' id='HeaderWidget.totals.unloading'></td>
+											<td class='m' id='HeaderWidget.totals.loose'></td>
+											<td class='n' id='HeaderWidget.totals.at_night'></td>
+										</tr>
+									</tfoot>
+								</table>
+
+							</div>
+
+
+							</div>
+
+						</div>
+						
+						<div id="SlideWidget.slides.slide_d" class='slide down'>
+
+							<div class='tbl_e'>
+
+								<div class='header'>
+									<div class='tab'>
+										ETC
+									</div>
+								</div>
+
+								<table>
+									<thead>
+										<tr>
+											<th class='a'>区分</th>
+											<th class='b'>特別許可</th>
+											<th class='c'>有料道路名</th>
+											<th class='d'>入りIC名</th>
+											<th class='e'>出IC名</th>
+											<th class='f'>ETC料金</th>
+											<th class='g'>現金</th>
+											<th class='h'>合計</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class='a'>
+												行・移動・帰
+											</td>
+											<td class='b'></td>
+											<td class='c'></td>
+											<td class='d'></td>
+											<td class='e'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+											<td class='h top'>行合計金額</td>
+										</tr>
+										<tr>
+											<td class='a'>
+												行・移動・帰
+											</td>
+											<td class='b'></td>
+											<td class='c'></td>
+											<td class='d'></td>
+											<td class='e'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+											<td class='h bottom' rowspan='2'>￥</td>
+										</tr>
+										<tr>
+											<td class='a'>
+												行・移動・帰
+											</td>
+											<td class='b'></td>
+											<td class='c'></td>
+											<td class='d'></td>
+											<td class='e'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+
+										<tr>
+											<td class='a'>
+												行・移動・帰
+											</td>
+											<td class='b'></td>
+											<td class='c'></td>
+											<td class='d'></td>
+											<td class='e'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+											<td class='h top'>移動合計金額</td>
+										</tr>
+										<tr>
+											<td class='a'>
+												行・移動・帰
+											</td>
+											<td class='b'></td>
+											<td class='c'></td>
+											<td class='d'></td>
+											<td class='e'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+											<td class='h bottom' rowspan='2'>￥</td>
+										</tr>
+										<tr>
+											<td class='a'>
+												行・移動・帰
+											</td>
+											<td class='b'></td>
+											<td class='c'></td>
+											<td class='d'></td>
+											<td class='e'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='a'>
+												行・移動・帰
+											</td>
+											<td class='b'></td>
+											<td class='c'></td>
+											<td class='d'></td>
+											<td class='e'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+											<td class='h top'>帰合計金額</td>
+										</tr>
+										<tr>
+											<td class='a'>
+												行・移動・帰
+											</td>
+											<td class='b'></td>
+											<td class='c'></td>
+											<td class='d'></td>
+											<td class='e'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+											<td class='h bottom' rowspan='2'>￥</td>
+										</tr>
+										<tr>
+											<td class='a'>
+												行・移動・帰
+											</td>
+											<td class='b'></td>
+											<td class='c'></td>
+											<td class='d'></td>
+											<td class='e'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+
+									</tbody>
+								</table>
+
+								<table>
+									<tr>
+										<td class='pad'></td>
+										<td class='e'>
+											合計
+										</td>
+										<td class='f'>
+											￥
+										</td>
+										<td class='g'>
+											￥
+										</td>
+										<td class='h'>
+											金額￥
+										</td>
+									</tr>
+								</table>
+
+							</div>
+
+						</div>
+
+						<!-- START SLIDE -->
+						
+						<div  id="SlideWidget.slides.slide_b" class='slide down'>
+
+							<div class='top_shelf'>
+
+								<div class='hdr_table'>
+									<table>
+										<tr>
+											<td class='a'>運行名</td>
+											<td class='b'>
+
+												<input type='text' id='StandardWidget.header.run_name' readonly='readonly'/>
+
+											</td>
+											<td class='c'>高速道路</td>
+											<td class='e'>
+												<input type='text' id='StandardWidget.header.highway' readonly='readonly'/>
+											</td>
+											<td class='f'>走行距離</td>
+											<td class='g'>
+												<input type='text' id='StandardWidget.header.mileage' readonly='readonly'/>
+											</td>
+										</tr>
+
+										<tr>
+											<td class='a'>住所</td>
+											<td class='b'>
+												<input type='text' id='StandardWidget.header.address' readonly='readonly'/>
+											</td>
+											<td class='c'>
+												一般通路
+											</td>
+											<td class='e'>
+												<input type='text' id='StandardWidget.header.general_access' readonly='readonly'/>
+											</td>
+											<td class='f'>
+												拘束時間
+											</td>
+											<td class='g'>
+												<input type='text' id='StandardWidget.header.restraint_time' readonly='readonly'/>
+
+											</td>
+										</tr>
+									</table>
+								</div>
+
+								<div class='switch'>
+									<div id='Direction.toggle.a' class='toggle a'>往路</div>
+									<div id='Direction.toggle.b' class='toggle b'>復路</div>
+									<div id='Direction.toggle.highlight' class='highlight a'></div>
+								</div>
+
+							</div>
+
+							<div class='bottom_shelf' id='Direction.table.b' class='hide'>
+
+								<table>
+									<thead>
+										<tr>
+											<th class='a'>区分</th>
+											<th class='b' colspan='2'>経路</th>
+											<th class='c'>時間</th>
+											<th class='d'>備考</th>
+											<th class='e'>操作ボタン</th>
+										</tr>
+									</thead>
+									<tbody id='StandardWidget.return_trip.tbody'>
+
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+
+							<div class='bottom_shelf' id='Direction.table.a'>
+
+								<table>
+									<thead>
+										<tr>
+											<th class='a'>区分</th>
+											<th class='b' colspan='2'>経路</th>
+											<th class='c'>時間</th>
+											<th class='d'>備考</th>
+											<th class='e'>操作ボタン</th>
+										</tr>
+									</thead>
+									<tbody id='StandardWidget.outbound.tbody'>
+
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+										<tr>
+											<td class='h'>&nbsp;</td>
+											<td class='i'></td>
+											<td class='i'></td>
+											<td class='h'></td>
+											<td class='f'></td>
+											<td class='g'></td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+
+							<div class='shelf_summary'>
+								<table>
+									<tr>
+										<td class='label'>
+											走行距離
+										</td>
+										<td class='value'>
+											
+										</td>
+										<td class='units'>
+											km 
+										</td>
+									</tr>
+									<tr>
+										<td class='label'>
+											拘束時間
+										</td>
+										<td class='value'>
+											8:30
+										</td>
+										<td class='units'>
+											時間
+										</td>
+									</tr>
+								</table>
+							</div>
+							
+							<div class='shelf_sign'>
+								<div class='labels'>
+									<table>
+										<tr>
+											<td>部長承認</td>
+											<td>所長承認</td>
+											<td>確認</td>
+											<td>作成</td>
+										</tr>
+									</table>
+								</div>
+								<div class='stamps'>
+									<table>
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+							
+
+						</div>
+
+						<div  id="SlideWidget.slides.slide_c" class='slide down'>
+
+							<!-- START TABLE -->
+
+							<div class='tbl_a'>
+
+								<div class='header'>
+									始業点検
+								</div>
+
+								<div class='body'>
+
+									<table>
+										<tr>
+											<td class='label n'></td>
+											<td class='circle n'></td>
+											<td class='text'>
+												点検箇所
+											</td>
+											<td class='explain'>
+												点検科目
+											</td>
+											<td class='check'>
+												〇を付ける
+											</td>
+										</tr>
+										<tr>
+											<td colspan='3'>
+												前日異常個所
+												<span>（前日に異常なかったものに〇）</span>
+											</td>
+											<td>
+												当詃箇所の異常
+											</td>
+											<td class='check wide' id='InspectWidget.q01.box'>
+												<a id='InspectWidget.q01.okay'>無</a>・
+												<a id='InspectWidget.q01.bad'>有</a>
+											</td>
+										</tr>
+
+										<!-- START BLOCK 1 -->
+
+										<tr>
+											<td class='label' rowspan='10'>
+
+												車<br>
+												の<br>
+												周<br>
+												り<br>
+												か<br>
+												ら<br>
+												の<br>
+												点<br>
+												検
+
+											</td>
+											<td class='circle'></div>
+											<td>タイヤ</td>
+											<td>空気圧</td>
+											<td id='InspectWidget.q02.box' class='check wide'>
+												<a id='InspectWidget.q02.okay' class=''>良</a>・
+												<a id='InspectWidget.q02.bad' class=''>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle'></div>
+											<td>タイヤ</td>
+											<td>亀裂・損傷・異常な摩耗</td>
+											<td id='InspectWidget.q03.box' class='check wide'>
+												<a id='InspectWidget.q03.okay' class=''>良</a>・
+												<a id='InspectWidget.q03.bad' class=''>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle kome'>
+												※
+											</div>
+											<td>タイヤ</td>
+											<td>溝の深さ</td>
+											<td id='InspectWidget.q04.box' class='check wide'>
+												<a id='InspectWidget.q04.okay' class=''>良</a>・
+												<a id='InspectWidget.q04.bad' class=''>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle'></div>
+											<td>ホイール</td>
+											<td>ホイール・ボルト・ナット締付確認</td>
+											<td id='InspectWidget.q05.box' class='check wide'>
+												<a id='InspectWidget.q05.okay' class=''>良</a>・
+												<a id='InspectWidget.q05.bad' class=''>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle kome'>※</div>
+											<td>ラジエターなどの冷却装置</td>
+											<td>冷却水量</td>
+											<td id='InspectWidget.q06.box' class='check wide'>
+												<a id='InspectWidget.q06.okay' class=''>良</a>・
+												<a id='InspectWidget.q06.bad' class=''>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle'></div>
+											<td>ブレーキのリザーブタンク</td>
+											<td>ブレーキ液量</td>
+											<td id='InspectWidget.q07.box' class='check wide'>
+												<a id='InspectWidget.q07.okay' class=''>良</a>・
+												<a id='InspectWidget.q07.bad' class=''>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle maru'>◎</div>
+											<td>エアタンク</td>
+											<td>タンク内の凝水</td>
+											<td id='InspectWidget.q08.box' class='check wide'>
+												<a id='InspectWidget.q08.okay' class=''>良</a>・
+												<a id='InspectWidget.q08.bad' class=''>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle kome'>※</div>
+											<td>潤滑装置</td>
+											<td>エンジンオイル量</td>
+											<td id='InspectWidget.q09.box' class='check wide'>
+												<a id='InspectWidget.q09.okay' class=''>良</a>・
+												<a id='InspectWidget.q09.bad' class=''>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle kome'>※</div>
+											<td>バッテリー</td>
+											<td>バッテリー液量</td>
+											<td id='InspectWidget.q10.box' class='check wide'>
+												<a id='InspectWidget.q10.okay' class=''>良</a>・
+												<a id='InspectWidget.q10.bad' class=''>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle kome'>※</div>
+											<td>ファンベルト</td>
+											<td>張り・損傷</td>
+											<td id='InspectWidget.q11.box' class='check wide'>
+												<a id='InspectWidget.q11.okay' class=''>良</a>・
+												<a id='InspectWidget.q11.bad' class=''>否</a>
+											</td>
+										</tr>
+
+										<!-- END BLOCK 1 -->
+
+										<!-- START BLOCK 2 -->
+
+										<tr>
+											<td class='label' rowspan='3'>
+												
+												の運<br>
+												点転<br>
+												検席<br>
+
+											</td>
+											<td class='circle kome'>※</div>
+											<td>パーキングブレーキ</td>
+											<td>引きしろ</td>
+											<td id='InspectWidget.q12.box' class='check wide'>
+												<a id='InspectWidget.q12.okay' class=''>良</a>・
+												<a id='InspectWidget.q12.bad' class=''>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle kome'>※</div>
+											<td>ウインドウ・ウォッシャー</td>
+											<td>液量・噴射状態</td>
+											<td id='InspectWidget.q13.box' class='check wide'>
+												<a id='InspectWidget.q13.okay' class=''>良</a>・
+												<a id='InspectWidget.q13.bad' class=''>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle kome'>※</div>
+											<td>ワイパー</td>
+											<td>ふき取り状態</td>
+											<td id='InspectWidget.q14.box' class='check wide'>
+												<a id='InspectWidget.q14.okay' class=''>良</a>・
+												<a id='InspectWidget.q14.bad' class=''>否</a>
+											</td>
+										</tr>
+
+										<!-- END BLOCK 2 -->
+
+										<!-- START BLOCK 3 -->
+
+										<tr>
+											<td class='label bb' rowspan='7'>
+												
+												エ<br>
+												ン<br>
+												ジ<br>
+												ン<br>
+												始<br>
+												動<br>
+												時
+
+											</td>
+											<td class='circle kome'>※</div>
+											<td>エンジン</td>
+											<td>かかり具合・異音</td>
+											<td id='InspectWidget.q15.box' class='check wide'>
+												<a id='InspectWidget.q15.okay' class=''>良</a>・
+												<a id='InspectWidget.q15.bad' class=''>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle kome'>※</div>
+											<td>エンジン</td>
+											<td>低速・加速の状態</td>
+											<td id='InspectWidget.q16.box' class='check wide'>
+												<a id='InspectWidget.q16.okay' class=''>良</a>・
+												<a id='InspectWidget.q16.bad' class=''>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle maru'>◎</div>
+											<td>空気圧計</td>
+											<td>空気圧の上昇具合</td>
+											<td id='InspectWidget.q17.box' class='check wide'>
+												<a id='InspectWidget.q17.okay' class=''>良</a>・
+												<a id='InspectWidget.q17.bad' class=''>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle'></div>
+											<td>ランプ類</td>
+											<td>点灯・点滅状態、汚れ、損傷</td>
+											<td id='InspectWidget.q18.box' class='check wide'>
+												<a id='InspectWidget.q18.okay' class=''>良</a>・
+												<a id='InspectWidget.q18.bad' class=''>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle'></div>
+											<td>ブレーキ</td>
+											<td>踏みしろ・効き具合</td>
+											<td id='InspectWidget.q19.box' class='check wide'>
+												<a id='InspectWidget.q19.okay' class=''>良</a>・
+												<a id='InspectWidget.q19.bad' class=''>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle mame'>◎※</div>
+											<td>ブレーキ</td>
+											<td>ブレーキ・ドラムとライニングの隙間</td>
+											<td id='InspectWidget.q20.box' class='check wide'>
+												<a id='InspectWidget.q20.okay'>良</a>・
+												<a id='InspectWidget.q20.bad'>否</a>
+											</td>
+										</tr>
+										<tr>
+											<td class='circle bb maru'>◎</div>
+											<td>ブレーキ</td>
+											<td>
+												ブレーキ・ペダルを踏んで離した場合<br>
+												ブレーキ・バルブから排気音が正常であること
+											</td>
+											<td id='InspectWidget.q21.box' class='check wide'>
+												<a id='InspectWidget.q21.okay' class=''>良</a>・
+												<a id='InspectWidget.q21.bad' class=''>否</a>
+											</td>
+										</tr>
+									</table>
+
+								</div>
+
+								<!--
+
+								<div class='footer'>
+									<table>
+										<tr>
+											<td>※印の項目は走行距離・運行時の状態等に
+											より適切な時期に行う項目</td>
+										</tr>
+										<tr>
+											<td>◎印の項目はエアブレーキ車の項目</td>
+										</tr>
+										<tr>
+											<td>※、◎印の項目を点検しないまたは、
+											詃当しない場合は良・否闘に斜線を記入する
+											</td>
+										</tr>
+									</table>
+								</div>
+
+								-->
+
+							</div>
+
+							<!-- END TABLE -->
+
+							<!-- START SIDE -->
+
+							<div class='side_a'>
+
+								<div class='fill'>
+
+									<div class='box'>
+										<div class='header'>
+											操車・乗務・点検についての報告事項
+										</div>
+										<div class='section'>
+											<textarea disabled='disabled' id='InspectWidget.text.report'></textarea>
+										</div>
+									</div>
+
+									<div class='box'>
+										<div class='header'>
+											運行管理者コメント記入
+										</div>
+										<div class='section'>
+											<textarea disabled='disabled' id='InspectWidget.text.comment'></textarea>
+										</div>
+									</div>
+
+									<div class='box hide'>
+										<div class='header'>
+											提出物
+										</div>
+										<div class='section'>
+
+											<table>
+												<tr>
+													<td class='label'>受領書</td>
+													<td class='value'>
+														<span class='aaa selected'>有</span>・
+														<span class='bbb'>無</span>
+													</td>
+												</tr>
+												<tr>
+													<td class='label'>外部スタンド伝票</td>
+													<td class='value'>
+														<span class='aaa'>有</span>・
+														<span class='bbb selected'>無</span>
+													</td>
+												</tr>
+												<tr>
+													<td class='label'>有料通路チケット</td>
+													<td class='value'>
+														<span class='aaa'>有</span>・
+														<span class='bbb selected'>無</span></td>
+												</tr>
+												<tr>
+													<td class='label'>運行工程チェックシート</td>
+													<td class='value'>
+														<span class='aaa'>有</span>・
+														<span class='bbb selected'>無</span>
+													</td>
+												</tr>
+											</table>
+
+										</div>
+									</div>
+
+								</div>
+								
+								<div class='sign clean'>
+
+									<div class='step' id='StepManager.step_04.label'>	
+										<span>Step 4</span>
+										<div id='StepManager.step_04.status' class='icon'></div>
+
+									</div>
+	
+									<button class='step' id='StepManager.step_04.button'>
+										点検確定
+									</button>
+
+								</div>
+
+								<div class='sign hide'>
+
+									<div class='header'>
+										<table>
+											<tr>
+												<td>
+													所長
+												</td>
+												<td>
+													運行管理者
+												</td>
+												<td class='n'>
+													整衛管理者
+												</td>
+											</tr>
+										</table>
+									</div>
+
+									<div class='section'>
+										<table>
+											<tr>
+												<td>
+													<img class='a' src='img/stamp1.png'/>
+												</td>
+												<td>
+													<img class='b' src='img/stamp2.png'/>
+												</td>
+												<td class='n'>
+													<img class='c' src='img/stamp3.png'/>
+												</td>
+											</tr>
+										</table>
+									</div>
+
+								</div>
+
+							</div>
+
+							<!-- END SIDE -->
+
+						</div>
+
+						<!-- END SLIDE -->
+
+						<!-- START SLIDE -->
+						
+						<div  id="SlideWidget.slides.slide_e" class='slide down'>
+
+							<div class='top_shelf'>
+
+								<div class='hdr_table'>
+									<table>
+										<tr>
+											<td class='title' rowspan='2'>運転日報</td>
+											<td class='c'>会社名</td>
+											<td class='indent' id='RecordWidget.header.company_name'></td>
+											<td class='f'>運転開始</td>
+											<td class='indent' id='RecordWidget.header.start_date'></td>
+										</tr>
+										<tr>
+											<td class='c'>運転手</td>
+											<td class='indent' id='RecordWidget.header.driver_name'></td>
+											<td class='f'>運転終了</td>
+											<td class='indent' id='RecordWidget.header.end_date'></td>
+										</tr>
+									</table>
+								</div>
+
+								<div class='switch'>
+									<div id="DailyReport.toggle.a" class="toggle a">一覧</div>
+									<div id="DailyReport.toggle.b" class="toggle b">統計</div>
+									<div id="DailyReport.toggle.highlight" class="highlight c"></div>
+								</div>
+
+							</div>
+							
+							<div id='DailyReport.table.b' class='bottom_shelf clean hide'>
+
+								<div class='stat_b1'>
+									<table>
+										<tr>
+											<td>乗務時間</td>
+											<td>稼働時間</td>
+											<td class='bookend'>非稼働時間</td>
+
+											<td class='null' rowspan='2'></td>
+
+											<td>走行距離</td>
+											<td>実車距離</td>
+											<td class='bookend'>空車距離</td>
+
+											<td class='null' rowspan='2'></td>
+
+											<td>一般道距離</td>
+											<td>高速道距離</td>
+											<td class='bookend'>専用道路距離</td>
+											
+											<td class='null' rowspan='2'></td>
+
+											<td class='bookend'>高速料金</td>
+										</tr>
+										<tr>
+											<td id='RecordWidget.stats.drive_time'></td>
+											<td id='RecordWidget.stats.operating_time'></td>
+											<td id='RecordWidget.stats.non_working_time' class='bookend'></td>
+
+											<td>
+												<span id='RecordWidget.stats.mileage'></span> km
+											</td>
+											<td> 
+												<span id='RecordWidget.stats.actual_distance'></span> km
+											</td>
+											<td class='bookend'>
+												<span id='RecordWidget.stats.empty_distance'></span> km
+											</td>
+
+											<td>
+												<span id='RecordWidget.stats.general_road_distance'></span> km
+											</td>
+											<td>
+												<span id='RecordWidget.stats.highway_distance'></span> km
+											</td>
+											<td class='bookend'>
+												<span id='RecordWidget.stats.private_road_distance'></span> km
+											</td>
+											
+											<td class='bookend'>
+												<span id='RecordWidget.stats.highway_costs'></span> 円
+											</td>
+										</tr>
+									</table>
+								</div>
+
+								<div class='stat_b2'>
+
+									<table>
+										<thead>
+											<tr>
+												<th class='a null'></th>
+												<th class='b null'></th>
+												<th class='c null'></th>
+
+												<th class='d1 null'></th>
+												<th class='d2 null'></th>
+												<th class='d3 null'></th>
+
+												<th class='e1 null'></th>
+												<th class='e2 null'></th>
+												<th class='e3 null'></th>
+
+												<th class='f null'></th>
+												<th class='g null'></th>
+												<th class='h null'></th>
+												<th class='i null'></th>
+											</tr>
+
+											<tr>
+												<th rowspan='2' class='s'>
+													車両<br>ID
+												</th>
+												<th rowspan='2'>
+													車両名
+												</th>
+												<th rowspan='2'>
+													車種
+												</th>
+												<th colspan='3'>
+													乗車時間
+												</th>
+												<th colspan='3'>
+													オドメータ(km)
+												</th>
+												<th rowspan='2'>
+													給油量<br>(ℓ)
+												</th>
+												<th rowspan='2'>
+													給油費<br>(円)
+												</th>
+												<th rowspan='2'>
+												 燃費<br><span>(km/ℓ)</span>
+												</th>
+												<th rowspan='2'>
+													高速料金<br>(円)
+												</th>
+											</tr>
+											<tr>
+
+												<th>開始</th>
+												<th>終了</th>
+												<th>期間</th>
+
+												<th>開始</th>
+												<th>終了</th>
+												<th>走行距離</th>
+
+											</tr>
+										</thead>
+										<tbody id='RecordWidget.stats.tbody'>
+											<tr>
+												<td>
+												&nbsp;
+												</td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>
+												&nbsp;
+												</td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>
+												&nbsp;
+												</td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>
+												&nbsp;
+												</td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+										</tbody>
+										<tfoot>
+											<tr>
+												<td>計</td>
+												<td colspan='7'></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+										</tfoot>
+									</table>
+
+								</div>
+
+								<div class='stat_row'>
+
+									<div class='block slot0'>
+										<table>
+											<thead>
+												<tr>
+													<th class='ba'></th>
+													<th class='bb'>最高速度</th>
+													<th class='bc'></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>一般</td>
+													<td id='RecordWidget.maximum_speed.general'></td>
+													<td>km/h</td>
+												</tr>
+												<tr>
+													<td>専用</td>
+													<td id='RecordWidget.maximum_speed.private'></td>
+													<td>km/h</td>
+												</tr>
+												<tr>
+													<td>高速</td>
+													<td id='RecordWidget.maximum_speed.highway'></td>
+													<td>km/h</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+									<div class='block slot1'>
+										<table>
+											<thead>
+												<tr>
+													<th class='ba'></th>
+													<th class='bb'>
+														最高エンジン回転数
+													</th>
+													<th class='bc'></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>一般</td>
+													<td id='RecordWidget.maximum_engine_speed.general'></td>
+													<td>回転</td>
+												</tr>
+												<tr>
+													<td>専用</td>
+													<td id='RecordWidget.maximum_engine_speed.private'></td>
+													<td>回転</td>
+												</tr>
+												<tr>
+													<td>高速</td>
+													<td id='RecordWidget.maximum_engine_speed.highway'></td>
+													<td>回転</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+									<div class='block slot2'>
+										<table>
+											<thead>
+												<tr>
+													<th class='ba'></th>
+													<th class='bb'>
+														平均速度
+													</th>
+													<th class='bc'></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>一般</td>
+													<td id='RecordWidget.average_speed.general'></td>
+													<td>km/h</td>
+												</tr>
+												<tr>
+													<td>専用</td>
+													<td id='RecordWidget.average_speed.private'></td>
+													<td>km/h</td>
+												</tr>
+												<tr>
+													<td>高速</td>
+													<td id='RecordWidget.average_speed.highway'></td>
+													<td>km/h</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+									<div class='block slot3'>
+										<table>
+											<thead>
+												<tr>
+													<th class='ba'></th>
+													<th class='bb'>
+														速度超過
+													</th>
+													<th class='bc'></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>一般</td>
+													<td id='RecordWidget.over_speed_limit.general'></td>
+													<td>回</td>
+												</tr>
+												<tr>
+													<td>専用</td>
+													<td id='RecordWidget.over_speed_limit.private'></td>
+													<td>回</td>
+												</tr>
+												<tr>
+													<td>高速</td>
+													<td id='RecordWidget.over_speed_limit.highway'></td>
+													<td>回</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+								</div>
+
+								<div class='stat_row'>
+
+									<div class='block slot0'>
+										<table>
+											<thead>
+												<tr>
+													<th class='ba'></th>
+													<th class='bb over'>
+													エンジン回転数オーバー
+													</th>
+													<th class='bc'></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>一般</td>
+													<td id='RecordWidget.over_engine_speed.general'></td>
+													<td>回</td>
+												</tr>
+												<tr>
+													<td>専用</td>
+													<td id='RecordWidget.over_engine_speed.private'></td>
+													<td>回</td>
+												</tr>
+												<tr>
+													<td>高速</td>
+													<td id='RecordWidget.over_engine_speed.highway'></td>
+													<td>回</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									
+									<div class='block clean slot1'>
+
+										<div class='half top'>
+											<table>
+												<thead>
+													<tr>
+														<th>連続運転超過</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td><span id='RecordWidget.stats.excessive_continuous_operation'></span> 回</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+
+										<div class='half bottom'>
+											<table>
+												<thead>
+													<tr>
+														<th>総合評価</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>
+															<span id='RecordWidget.stats.comprehensive_evaluation'>&nbsp;</span>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+
+										</div>
+
+									</div>
+
+									<div class='block clean slot2'>
+										<div class='half top'>
+											<table>
+												<thead>
+													<tr>
+														<th>安全</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>
+															<span id='RecordWidget.stats.safety'>&nbsp;</span>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+
+										<div class='half bottom'>
+											<table>
+												<thead>
+													<tr>
+														<th>省燃費</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>
+															<span id='RecordWidget.stats.fuel_economy'>&nbsp;</span>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+
+										</div>
+
+									</div>
+									
+									<div class='block clean'>
+									</div>
+
+								</div>
+
+								<div class='stat_notes'>
+									<table>
+										<tr>
+											<td>
+												備考
+											</td>
+											<td id='RecordWidget.stats.notes'>
+											</td>
+										</tr>
+									</table>
+
+									<div class='confirm'>
+
+										<div class='step' id='StepManager.step_08.label'>
+											<span>Step 8</span>
+											<div class='icon' id='StepManager.step_08.status'></div>
+
+										</div>
+
+										<button id='StepManager.step_08.button' class='step'>日報確定</button>
+
+									</div>
+
+								</div>
+
+							</div>
+
+							<div id='DailyReport.table.a' class='bottom_shelf'>
+
+							<div class='daily-table'>
+								<div class='thead'>
+									<table>
+										<thead>
+											<tr>
+												<th class='a' rowspan='2'>No.</th>
+												<th class='b' rowspan='2'>作業状態</th>
+												<th class='c' colspan='2'>作業時間</th>
+												<th class='e' rowspan='2'>出発<br>実績</th>
+												<th class='f' rowspan='2'>所要距離</th>
+												<th class='g' rowspan='2'>地点等</th>
+												<th class='h' rowspan='2'>高速<br>料金</th>
+												<th class='i' rowspan='2'>荷主</th>
+												<th class='j' rowspan='2'>品名</th>
+												<th class='k' rowspan='2'>数量</th>
+												<th class='l' rowspan='2'>単位</th>
+												<th class='m' rowspan='2'>重量<br>(kg)</th>
+												<th class='n' rowspan='2'>積載<br>状態</th>
+											</tr>
+											<tr>
+												<th>開始</th>
+												<th class='line'>終了</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+
+								<div class='tbody'>
+
+									<table>
+										<tbody id='RecordWidget.table.tbody'>
+
+										</tbody>
+									</table>
+
+								</div>
+
+								</div>
+
+							</div>
+
+
+						</div>
+
+						<!-- END SLIDE -->
+
+					</div>
+
+				</article>
+
+			</section>
+
+		</main>
+
+		<!-- LIBRARIES -->
+
+		<script type='text/javascript' src='lib/localforage.js'></script>
+		<script type='text/javascript' src='lib/moment-with-locales.js'></script>
+
+		<!-- SERVICE WORKER -->
+
+		<script type='text/javascript' src='js/ServiceWorker.js'></script>
+		<script type='text/javascript' src='js/SessionManager.js'></script>
+
+		<!-- MODULES -->
+
+		<script type='text/javascript' src='js/SlideWidget.js'></script>
+		<script type='text/javascript' src='js/ArticleWidget.js'></script>
+		<script type='text/javascript' src='js/PdfManager.js'></script>
+		<script type='text/javascript' src='js/CalendarWidget.js'></script>
+		<script type='text/javascript' src='js/Tooltips.js'></script>
+		<script type='text/javascript' src='js/InputWidgets.js'></script>
+		<script type='text/javascript' src='js/Direction.js'></script>
+		<script type='text/javascript' src='js/DailyReport.js'></script>
+		<script type='text/javascript' src='js/StepManager.js'></script>
+		
+		<!-- WIDGETS -->
+
+		<script type='text/javascript' src='js/HeaderWidget.js'></script>
+		<script type='text/javascript' src='js/StandardWidget.js'></script>
+		<script type='text/javascript' src='js/InspectWidget.js'></script>
+		<script type='text/javascript' src='js/RecordWidget.js'></script>
+
+
+	</body>
+
+</html>

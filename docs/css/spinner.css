@@ -1,0 +1,31 @@
+/* From https://codepen.io/mrrocks/pen/EiplA */
+
+
+.spinner {
+  animation: rotator 1.4s linear infinite;
+}
+
+@keyframes rotator {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.path {
+
+  stroke-dasharray: 187;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+  stroke: #1b9a59;
+  stroke-dashoffset: 30;
+  /*
+  animation: dash 1.4s ease-in-out infinite;
+  */
+
+}
+
+@keyframes dash {
+ 0% { stroke-dashoffset: 46; }
+ 100% {
+ stroke-dashoffset: 187;
+ }
+}
